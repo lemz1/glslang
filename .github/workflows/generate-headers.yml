@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  generate-and-commit-header:
+  generate-and-commit-files:
     runs-on: ubuntu-latest
 
     steps:
