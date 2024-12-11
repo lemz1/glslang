@@ -35,7 +35,7 @@ jobs:
     - name: Copy File Test
       shell: bash
       run: |
-        cp src/build/include/glslang/build_info.h build_info.h
+        cp src/build/include/glslang/build_info.h dest/build_info.h
 
     - name: Push Commit
       shell: bash
