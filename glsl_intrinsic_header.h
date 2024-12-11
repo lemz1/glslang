@@ -1,4 +1,23 @@
-// Copyright (C) 2020 The Khronos Group Inc.
+/***************************************************************************
+ *
+ * Copyright (c) 2015-2021 The Khronos Group Inc.
+ * Copyright (c) 2015-2021 Valve Corporation
+ * Copyright (c) 2015-2021 LunarG, Inc.
+ * Copyright (c) 2015-2021 Google Inc.
+ * Copyright (c) 2021 Advanced Micro Devices, Inc.All rights reserved.
+ *
+ ****************************************************************************/
+#pragma once
+
+#ifndef _INTRINSIC_EXTENSION_HEADER_H_
+#define _INTRINSIC_EXTENSION_HEADER_H_
+
+std::string GL_EXT_shader_realtime_clock_GLSL = R"(
+//
+// Copyright (C) 2002-2005  3Dlabs Inc. Ltd.
+// Copyright (C) 2013-2016 LunarG, Inc.
+// Copyright (C) 2016-2020 Google, Inc.
+// Modifications Copyright(C) 2021 Advanced Micro Devices, Inc.All rights reserved.
 //
 // All rights reserved.
 //
@@ -14,7 +33,7 @@
 //    disclaimer in the documentation and/or other materials provided
 //    with the distribution.
 //
-//    Neither the name of The Khronos Group Inc. nor the names of its
+//    Neither the name of 3Dlabs Inc. Ltd. nor the names of its
 //    contributors may be used to endorse or promote products derived
 //    from this software without specific prior written permission.
 //
@@ -30,33 +49,20 @@
 // LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
+//
 
-#ifndef GLSLANG_BUILD_INFO
-#define GLSLANG_BUILD_INFO
 
-#define GLSLANG_VERSION_MAJOR 15
-#define GLSLANG_VERSION_MINOR 0
-#define GLSLANG_VERSION_PATCH 0
-#define GLSLANG_VERSION_FLAVOR ""
+)";
 
-#define GLSLANG_VERSION_GREATER_THAN(major, minor, patch) \
-    ((GLSLANG_VERSION_MAJOR) > (major) || ((major) == GLSLANG_VERSION_MAJOR && \
-    ((GLSLANG_VERSION_MINOR) > (minor) || ((minor) == GLSLANG_VERSION_MINOR && \
-     (GLSLANG_VERSION_PATCH) > (patch)))))
 
-#define GLSLANG_VERSION_GREATER_OR_EQUAL_TO(major, minor, patch) \
-    ((GLSLANG_VERSION_MAJOR) > (major) || ((major) == GLSLANG_VERSION_MAJOR && \
-    ((GLSLANG_VERSION_MINOR) > (minor) || ((minor) == GLSLANG_VERSION_MINOR && \
-     (GLSLANG_VERSION_PATCH >= (patch))))))
+std::string getIntrinsic(const char* const* shaders, int n) {
+	std::string shaderString = "";
+	for (int i = 0; i < n; i++) {
+		if (strstr(shaders[i], "GL_EXT_shader_realtime_clock") != nullptr) {
+		    shaderString.append(GL_EXT_shader_realtime_clock_GLSL);
+		}
+	}
+	return shaderString;
+}
 
-#define GLSLANG_VERSION_LESS_THAN(major, minor, patch) \
-    ((GLSLANG_VERSION_MAJOR) < (major) || ((major) == GLSLANG_VERSION_MAJOR && \
-    ((GLSLANG_VERSION_MINOR) < (minor) || ((minor) == GLSLANG_VERSION_MINOR && \
-     (GLSLANG_VERSION_PATCH) < (patch)))))
-
-#define GLSLANG_VERSION_LESS_OR_EQUAL_TO(major, minor, patch) \
-    ((GLSLANG_VERSION_MAJOR) < (major) || ((major) == GLSLANG_VERSION_MAJOR && \
-    ((GLSLANG_VERSION_MINOR) < (minor) || ((minor) == GLSLANG_VERSION_MINOR && \
-     (GLSLANG_VERSION_PATCH <= (patch))))))
-
-#endif // GLSLANG_BUILD_INFO
+#endif
