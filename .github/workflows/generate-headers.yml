@@ -18,9 +18,12 @@ jobs:
         persist-credentials: false
 
     - name: Build Main
+      working-directory: src
+      shell: bash
       run: |
-        cd src
-        cmake -B build -DENABLE_OPT=0 -DGLSLANG_TESTS=0
+        ./update_glslang_sources.py
+
+        cmake -B build -DGLSLANG_TESTS=0
         cd build
         cmake --build .
 
