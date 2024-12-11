@@ -1,0 +1,47 @@
+name: Update Header with Build Info
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  generate-and-commit-header:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Main Branch
+      uses: actions/checkout@v3
+      with:
+        path: src
+        ref: main
+        persist-credentials: false
+
+    - name: Checkout Header Branch
+      uses: actions/checkout@v3
+      with:
+        path: dest
+        ref: header
+        persist-credentials: false
+      
+
+    # - name: Set up CMake and Build
+    #   run: |
+    #     cmake -B build -DENABLE_OPT=0 -DGLSLANG_TESTS=0
+    #     cd build
+    #     cmake --build .
+
+    - name: Copy File Test
+      shell: bash
+      run: |
+        cp src/README.md dest/README.md
+
+    - name: Push Commit
+      shell: bash
+      run: |
+        cd dest
+        git add -A
+        git commit -m "Test"
+        git remote set-url --push https://x-access-token:${{ secrets.PAT }}@github.com/lemz1/glslang.git
+        git push
+        
