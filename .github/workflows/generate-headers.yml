@@ -36,9 +36,9 @@ jobs:
     - name: Copy Files
       shell: bash
       run: |
-        cp src/glslang dest/glslang
-        cp src/SPIRV dest/SPIRV
-        cp src/StandAlone dest/StandAlone
+        cp -r src/glslang dest/glslang
+        cp -r src/SPIRV dest/SPIRV
+        cp -r src/StandAlone dest/StandAlone
 
         mkdir -p dest/generated/glslang
 
