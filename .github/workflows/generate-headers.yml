@@ -21,25 +21,29 @@ jobs:
       working-directory: src
       shell: bash
       run: |
-        ./update_glslang_sources.py
-
-        cmake -B build -DGLSLANG_TESTS=0
+        cmake -B build -ENABLE_OPT=0 -DGLSLANG_TESTS=0
         cd build
         cmake --build .
 
-    - name: Checkout Header Branch
+    - name: Checkout Generated Files Branch
       uses: actions/checkout@v3
       with:
         path: dest
-        ref: header
+        ref: generated-files
         persist-credentials: false
       
 
-    - name: Copy File Test
+    - name: Copy Files
       shell: bash
       run: |
-        cp src/build/include/glslang/build_info.h dest/build_info.h
-        cp src/build/include/glslang/glsl_intrinsic_header.h dest/glsl_intrinsic_header.h
+        cp src/glslang dest/glslang
+        cp src/SPIRV dest/SPIRV
+        cp src/StandAlone dest/StandAlone
+
+        mkdir -p dest/generated/glslang
+
+        cp src/build/include/glslang/build_info.h dest/generated/glslang/build_info.h
+        cp src/build/include/glslang/glsl_intrinsic_header.h dest/generated/glslang/glsl_intrinsic_header.h
 
     - name: Check For New Files
       id: newFiles
@@ -61,7 +65,6 @@ jobs:
       run: |
         git config --global user.name lemz1
         git config --global user.email ${{ secrets.EMAIL }}
-        git commit -m "Generate Headers"
+        git commit -m "Generate Files"
         git remote set-url --push origin https://x-access-token:${{ secrets.PAT }}@github.com/lemz1/glslang.git
         git push
-        
