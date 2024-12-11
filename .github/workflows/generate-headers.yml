@@ -17,6 +17,13 @@ jobs:
         ref: main
         persist-credentials: false
 
+    - name: Build Main
+      run: |
+        cd src
+        cmake -B build -DENABLE_OPT=0 -DGLSLANG_TESTS=0
+        cd build
+        cmake --build .
+
     - name: Checkout Header Branch
       uses: actions/checkout@v3
       with:
@@ -25,16 +32,10 @@ jobs:
         persist-credentials: false
       
 
-    # - name: Set up CMake and Build
-    #   run: |
-    #     cmake -B build -DENABLE_OPT=0 -DGLSLANG_TESTS=0
-    #     cd build
-    #     cmake --build .
-
     - name: Copy File Test
       shell: bash
       run: |
-        cp src/README.md dest/README.md
+        cp src/build/glslang/include/glslang/build_info.h build_info.h
 
     - name: Push Commit
       shell: bash
